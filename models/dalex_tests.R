@@ -2,11 +2,12 @@
 library("DALEX")
 library("randomForest")
 library("dplyr")
+library("breakDown")
 
 
 #####################################
 ceidg <- read.csv("data/dataset_cleaned_csv")
-ceidg <- sample_n(ceidg, 10000) # this dataset is too large...
+ceidg <- sample_n(ceidg, 500000) # this dataset is too large...
 ceidg <- na.omit(ceidg) # drop nans for rf
 
 # Too many levels of factors in below columns - need to test other models
@@ -25,7 +26,6 @@ explainer_rf_fired <- explain(model,
 
 # Calculate variable attributions
 new_observation <- ceidg[12,]
-library("breakDown")
 bd_rf <- break_down(explainer_rf_fired,
                     new_observation,
                     keep_distributions = TRUE)
