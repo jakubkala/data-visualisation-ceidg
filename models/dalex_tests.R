@@ -18,6 +18,11 @@ ceidg <- ceidg[ , !(names(ceidg) %in% drops)]
 # Define model
 model <- randomForest(Target ~ . , data = ceidg)
 
+
+# Feature Importances
+importance(model)
+varImpPlot(model)
+
 # Create a DALEX explainer
 explainer_rf_fired <- explain(model,
                               data = ceidg,  y = ceidg$Target == "True",
