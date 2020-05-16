@@ -27,4 +27,13 @@ server <- function(input, output) {
   
   output[["Target"]] <- renderPrint(pred())
   
+  
+  # explaination
+  # explaination <- reactive({explain.default(model, data = ceidg[, -1], y = ceidg$Target)})
+  explaination <- explain.default(model, data = ceidg[, -1], y = ceidg$Target)
+  bd_rf <- reactive({break_down(explaination,
+                                data(),
+                                keep_distributions = TRUE)})
+  output$explainationPlot <- renderPlot(plot(bd_rf()))
+  
 }

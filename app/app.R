@@ -72,8 +72,7 @@ server <- function(input, output) {
     output[["DurationOfExistenceInMonths"]] <- renderPrint({input$DurationOfExistenceInMonths})
     
     
-    
-  
+    # output$plot1 <- 
 }
 shinyApp(ui = ui, server = server)
 

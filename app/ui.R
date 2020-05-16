@@ -55,7 +55,10 @@ ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                              verbatimTextOutput("Target")
                              ),
                             
-                    tabPanel("Tab2"),
+                    tabPanel("Tab2",
+                             plotOutput(outputId = "explainationPlot")
+                             ),
+                    
                     tabPanel("Tab3",
                              
                              verbatimTextOutput("DurationOfExistenceInMonths"),

@@ -41,4 +41,9 @@ model <- ranger(Target ~ . ,
 
 #x = predict(object = model, data = test)
 
-
+# explaination <- explain.default(model, data = ceidg[, -1], y = ceidg$Target)
+# new_observation <- ceidg[12,]
+# bd_rf <- break_down(explaination,
+#                     new_observation,
+#                     keep_distributions = TRUE)
+# bd_rf
