@@ -4,6 +4,7 @@ library("randomForest")
 library("dplyr")
 library("breakDown")
 library("ranger")
+library("ggplot2")
 
 # Dataset preparation
 read.csv("../data/dataset_cleaned_csv") %>% na.omit -> ceidg

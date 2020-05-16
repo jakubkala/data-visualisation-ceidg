@@ -36,4 +36,23 @@ server <- function(input, output) {
                                 keep_distributions = TRUE)})
   output$explainationPlot <- renderPlot(plot(bd_rf()))
   
+  
+  # shapley
+  shap <- reactive({variable_attribution(explaination, 
+                               data(), 
+                               type = "shap",
+                               B = 15)})
+  output$shapleyPlot <- renderPlot(plot(shap()))
+  
+  # ceteris paribus DurationOfExistenceInMonths
+  cp_duartion <- reactive({individual_profile(explaination,
+                                    new_observation = data())})
+  output$ceterisParibusPlot <- renderPlot(plot(cp_duartion(), variables = c("DurationOfExistenceInMonths")))
+  
+  # diagnostic plot DurationOfExistenceInMonths - some problems with this one
+  # diagnostic <- reactive({individual_diagnostics(explaination,
+  #                                    data(), 
+  #                                    neighbours = 10,
+  #                                    variables = c("DurationOfExistenceInMonths"))})
+  # output$diagnosticPlot <- renderPlot(plot(diagnostic()))
 }

@@ -56,7 +56,10 @@ ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                              ),
                             
                     tabPanel("Tab2",
-                             plotOutput(outputId = "explainationPlot")
+                             plotOutput(outputId = "explainationPlot"),
+                             plotOutput(outputId = "shapleyPlot"),
+                             plotOutput(outputId = "ceterisParibusPlot"),
+                             plotOutput(outputId = "diagnosticPlot"),
                              ),
                     
                     tabPanel("Tab3",
