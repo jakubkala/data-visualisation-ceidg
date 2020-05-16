@@ -13,9 +13,9 @@ ceidg <- read.csv("data/dataset_cleaned_csv")
 ceidg <- na.omit(ceidg) # drop n
 
 
-ceidg <- ceidg[, c("Target", "DurationOfExistenceInMonths", "X", "MainAddressTERC", "CorrespondenceAddressTERC",
-                   "PKDMainClass", "CorrespondenceTERCPopulation", "MainTERCPopulation", "NoOfUniquePKDClasses",
-                   "Sex")] # less important features line
+# ceidg <- ceidg[, c("Target", "DurationOfExistenceInMonths", "X", "MainAddressTERC", "CorrespondenceAddressTERC",
+#                    "PKDMainClass", "CorrespondenceTERCPopulation", "MainTERCPopulation", "NoOfUniquePKDClasses",
+#                    "Sex")] # less important features line
 
 
 n <- nrow(ceidg)
