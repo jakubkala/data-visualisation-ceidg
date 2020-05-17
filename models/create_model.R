@@ -3,15 +3,17 @@ library("DALEX")
 library("randomForest")
 library("dplyr")
 library("breakDown")
-library("ranger")
 library("ggplot2")
+#library("ranger")
 
 # Dataset preparation
 read.csv("../data/dataset_cleaned_csv") %>%
   na.omit %>%
   filter(DurationOfExistenceInMonths >= 0) -> ceidg
 
-ceidg <- ceidg[, c("Target",
+ceidg$Target <- ifelse(ceidg$Target == "True", T, F)
+
+important_cols = c("Target",
                    "DurationOfExistenceInMonths",
                    "MainAddressVoivodeship",
                    "MainAddressCounty",
@@ -21,21 +23,25 @@ ceidg <- ceidg[, c("Target",
                    "PKDMainGroup",                    
                    "PKDMainClass",
                    "HasLicences",
-                   "NoofLicences")
-               ]
+                   "NoOfLicences")
+
+ceidg <- ceidg[, important_cols]
+
 
 ceidg$PKDMainDivision <- as.factor(ceidg$PKDMainDivision)
 ceidg$PKDMainGroup <- as.factor(ceidg$PKDMainGroup)
 ceidg$PKDMainClass <- as.factor(ceidg$PKDMainClass)
 
 # Model 
-ceidg %>% sample_n(100000) -> ceidg_model
+ceidg %>% sample_n(1000) -> ceidg_model
 
 model <- ranger(Target ~ . ,
                 data = ceidg_model,
-                probability = TRUE, 
-                importance = 'impurity',
-                write.forest=TRUE,
-                num.trees = 1000)
+                num.trees = 100,
+                probability = T)
 # save model to RDS file
 saveRDS(model, file = "../models/randomForestModel.rds")
+
+
+
+

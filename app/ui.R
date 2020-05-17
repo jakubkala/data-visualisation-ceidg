@@ -1,5 +1,3 @@
-library(shinythemes)
-
 ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                 
                 # Application title
@@ -8,7 +6,6 @@ ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                 sidebarLayout(
                   sidebarPanel(
                     h1("Dane przedsiębiorstwa"),
-                    
                     
                     sliderInput("DurationOfExistenceInMonths",
                                 "Długość życia przedsiębiorstwa:",
@@ -23,43 +20,55 @@ ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                     selectInput("MainAddressCounty", "Powiat:",
                                 MainAddressCounty_unique),
                     
-                    selectInput("MainAddressTERC", "Kod TERC",
-                                sort(MainAddressTERC_unique)),
-                    
                     sliderInput("MainTERCPopulation",
-                                "Kod TERC - populacja:",
+                                "Liczba ludności (wg TERC):",
                                 min = min(MainTERCPopulation_unique),
                                 max = max(MainTERCPopulation_unique),
                                 value = min(MainTERCPopulation_unique),
                                 step = 1),
                     
-                    
-                    selectInput("MainAddressTERC", "Kod TERC",
-                                sort(MainAddressTERC_unique)),
-                    
-                    
                     selectInput("PKDMainSection", "Sekcja PKD",
                                 sort(PKDMainSection_unique)),
+                    
+                    selectInput("PKDMainDivision", "Dywizja(?) PKD",
+                                sort(PKDMainDivision_unique)),
+                    
+                    selectInput("PKDMainGroup", "Grupa PKD",
+                                sort(PKDMainGroup_unique)),
                     
                     selectInput("PKDMainClass", "Klasa PKD",
                                 sort(PKDMainClass_unique)),
                     
-                    selectInput("PKDMainGroup", "Grupa PKD",
-                                sort(PKDMainGroup_unique))
+                    radioButtons("HasLicences", "Licencja:",
+                                 c("Tak" = "True",
+                                   "Nie" = "False")),
+                    
+                    sliderInput("NoOfLicences",
+                                "Liczba licencji:",
+                                min = min(NoOfLicences_unique),
+                                max = max(NoOfLicences_unique),
+                                value = min(NoOfLicences_unique),
+                                step = 1)
                     
                   ),
                   
-                  mainPanel(tabsetPanel(
+                  mainPanel(align = "center",
+                            tabsetPanel(
                     
                     tabPanel("Tab1",
-                             verbatimTextOutput("Target")
+                             verbatimTextOutput("Target"),
+                             verbatimTextOutput("printProbability"),
+                             plotOutput(outputId = "DurationOfExistenceInMonths_Plot"),
+                             plotOutput(outputId = "MainAddressVoivodeship_Plot"),
+                             plotOutput(outputId = "PKDMainSection_Plot")
+                             
                              ),
                             
                     tabPanel("Tab2",
                              plotOutput(outputId = "explainationPlot"),
                              plotOutput(outputId = "shapleyPlot"),
-                             plotOutput(outputId = "ceterisParibusPlot"),
-                             plotOutput(outputId = "diagnosticPlot"),
+                             plotOutput(outputId = "ceterisParibusPlot")
+                             #plotOutput(outputId = "diagnosticPlot"),
                              ),
                     
                     tabPanel("Tab3",
@@ -67,7 +76,6 @@ ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                              verbatimTextOutput("DurationOfExistenceInMonths"),
                              verbatimTextOutput("MainAddressVoivodeship"),
                              verbatimTextOutput("MainAddressCounty"),
-                             verbatimTextOutput("MainAddressTERC"),
                              verbatimTextOutput("MainTERCPopulation"),
                              verbatimTextOutput("PKDMainClass"),
                              verbatimTextOutput("PKDMainGroup"),
