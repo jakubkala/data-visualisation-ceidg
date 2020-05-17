@@ -57,12 +57,15 @@ server <- function(input, output) {
                                     new_observation = data())})
   output$ceterisParibusPlot <- renderPlot(plot(cp_duartion(), variables = c("DurationOfExistenceInMonths")))
   
+
   # diagnostic plot DurationOfExistenceInMonths - some problems with this one
   # diagnostic <- reactive({individual_diagnostics(explaination,
   #                                    data(), 
   #                                    neighbours = 10,
   #                                    variables = c("DurationOfExistenceInMonths"))})
   # output$diagnosticPlot <- renderPlot(plot(diagnostic()))
+  
+  
   
   # Static plots
   
@@ -96,5 +99,25 @@ server <- function(input, output) {
     width = 800)
   
   
+  
+  # Scatter near points 
+  
+  output$scatterPlot <- renderPlot({
+    ggplot(ceidg_model, aes(DurationOfExistenceInMonths, MainAddressVoivodeship, color = Target)) + geom_point()
+  },
+  height = 400,
+  width = 800)
+  
+  output$click_info <- renderPrint({
+    # Because it's a ggplot2, we don't need to supply xvar or yvar; if this
+    # were a base graphics plot, we'd need those.
+    nearPoints(ceidg_model[, c("Target", "DurationOfExistenceInMonths", "MainAddressVoivodeship")],
+               input$scatterPlot_click, addDist = TRUE)
+  })
+  
+  output$brush_info  <- renderPrint({
+    brushedPoints(ceidg_model[, c("Target", "DurationOfExistenceInMonths", "MainAddressVoivodeship")],
+                  input$scatterPlot_brush)
+  })
   
 }
