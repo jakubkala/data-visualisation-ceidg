@@ -101,23 +101,64 @@ server <- function(input, output) {
   
   
   # Scatter near points 
+
+  # output$scatterPlot <- renderPlot({
+  #   ggplot(ceidg, aes(DurationOfExistenceInMonths, MainAddressVoivodeship, color = Target)) + geom_point()
+  # },
+  # height = 400,
+  # width = 800)
+  # 
+  # output$click_info <- renderPrint({
+  #   # Because it's a ggplot2, we don't need to supply xvar or yvar; if this
+  #   # were a base graphics plot, we'd need those.
+  #   nearPoints(ceidg[, c("Target", "DurationOfExistenceInMonths", "MainAddressVoivodeship")],
+  #              input$scatterPlot_click, addDist = TRUE)
+  # })
+  # 
+  # output$brush_info  <- renderPrint({
+  #   brushedPoints(ceidg[, c("Target", "DurationOfExistenceInMonths", "MainAddressVoivodeship")],
+  #                 input$scatterPlot_brush)
+  # })
+  # 
+
+
   
-  output$scatterPlot <- renderPlot({
-    ggplot(ceidg_model, aes(DurationOfExistenceInMonths, MainAddressVoivodeship, color = Target)) + geom_point()
-  },
-  height = 400,
-  width = 800)
+  # scatter plotly
+  cars <- reactiveVal()
   
-  output$click_info <- renderPrint({
-    # Because it's a ggplot2, we don't need to supply xvar or yvar; if this
-    # were a base graphics plot, we'd need those.
-    nearPoints(ceidg_model[, c("Target", "DurationOfExistenceInMonths", "MainAddressVoivodeship")],
-               input$scatterPlot_click, addDist = TRUE)
+  observeEvent(event_data("plotly_click"), {
+    car <- event_data("plotly_click")$customdata
+    cars_old_new <- c(cars(), car)
+    cars(unique(cars_old_new))
   })
   
-  output$brush_info  <- renderPrint({
-    brushedPoints(ceidg_model[, c("Target", "DurationOfExistenceInMonths", "MainAddressVoivodeship")],
-                  input$scatterPlot_brush)
+  # clear the set of cars when a double-click occurs
+  observeEvent(event_data("plotly_doubleclick"), {
+    cars(NULL)
   })
   
+  output$p <- renderPlotly({
+    
+    # if the car is selected, paint it red
+    # cols <- ifelse(row.names(ceidg) %in% cars(), "orange", "black")
+    cols <- ifelse(row.names(ceidg) %in% cars(), 12, 6)
+    colorss <- ifelse(ceidg$Target==TRUE, "orange", "black")
+    
+    
+    ceidg %>%
+      plot_ly(
+        x = ~DurationOfExistenceInMonths, y = ~MainAddressVoivodeship, 
+        customdata = row.names(ceidg), 
+        marker = list(color = colorss,
+                      size  = cols)
+                      # symbol = ~Target, symbols = c('o', 'circle'))
+      ) %>%
+      add_markers() 
+      # highlight(on = "plotly_click", off = "plotly_doubleclick")
+      
+  })
+  
+  output$table <- renderTable({
+    filter(ceidg, row.names(ceidg) %in% cars())
+  })
 }

@@ -5,6 +5,7 @@ library("dplyr")
 library("breakDown")
 library("ranger")
 library("ggplot2")
+library("plotly")
 library(shinythemes)
 
 

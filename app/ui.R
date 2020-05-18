@@ -82,27 +82,31 @@ ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                              verbatimTextOutput("PKDMainSection")),
                     
                     tabPanel("Tab4",
+                             # fluidRow(
+                             #   column(
+                             #          width = 12,
+                             #          plotOutput("scatterPlot",
+                             #                     # Equivalent to: click = clickOpts(id = "plot_click")
+                             #                     click = "scatterPlot_click",
+                             #                     brush = brushOpts(
+                             #                       id = "scatterPlot_brush"
+                             #                     )
+                             #          )
+                             #   )
+                             # ),
+                             # fluidRow(
+                             #   column(width = 6,
+                             #          h4("Points near click"),
+                             #          verbatimTextOutput("click_info")
+                             #   ),
+                             #   column(width = 6,
+                             #          h4("Brushed points"),
+                             #          verbatimTextOutput("brush_info")
+                             #   )
+                             # ),
                              fluidRow(
-                               column(
-                                      width = 12,
-                                      plotOutput("scatterPlot",
-                                                 # Equivalent to: click = clickOpts(id = "plot_click")
-                                                 click = "scatterPlot_click",
-                                                 brush = brushOpts(
-                                                   id = "scatterPlot_brush"
-                                                 )
-                                      )
-                               )
-                             ),
-                             fluidRow(
-                               column(width = 6,
-                                      h4("Points near click"),
-                                      verbatimTextOutput("click_info")
-                               ),
-                               column(width = 6,
-                                      h4("Brushed points"),
-                                      verbatimTextOutput("brush_info")
-                               )
+                               plotlyOutput("p"),
+                               tableOutput("table")
                              )
                             )
                     
