@@ -81,4 +81,4 @@ model <- readRDS("../models/randomForestModel.rds")
 #                     keep_distributions = TRUE)
 # bd_rf
 
-ceidg %>% sample_n(500) -> ceidg
+ceidg %>% sample_n(100) -> ceidg

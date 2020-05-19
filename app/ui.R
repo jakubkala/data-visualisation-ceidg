@@ -57,7 +57,7 @@ ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                             tabsetPanel(
                               
                     tabPanel("Informacje",
-                             h4("Opis programu"),
+                             h4("Opis programu", align = "left"),
                              p("Przedstawiamy Państwu aplikację, która umożliwia uzyskanie predykcji
                              na temat \"Czy mój biznes przetrwa najbliższy rok?\".", align = "left"),
                              p("Do wyznaczenia prawdopodobieństwa przrtrwania został wykorzystany model
@@ -66,7 +66,7 @@ ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                              jest pod adresem:", align = "left"),
                              a("https://github.com/karabanb/ceidg_datasets/"),
                              hr(),
-                             h4("Instrukcja obsługi"),
+                             h4("Instrukcja obsługi", align = "left"),
                              p("Aby uzyskać predykcję oraz jej wyjaśnienie, należy wprowadzić dane
                                firmy w panelu po lewej stronie, a następnie wybrać zakładkę z interesującymi
                                nas informacjami.", align = "left"),
@@ -77,10 +77,14 @@ ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                                tags$li(tags$b("XAI - wyjaśnienie predykcji"),
                                        "(eXplainable AI): w zakładce przedstawione jest wyjaśnie
                                        otrzymanej predykcji."), 
-                               tags$li(tags$b("???"),
-                                       ": w zakładce przedstawiono ???."),
+                               tags$li(tags$b("Podobne firmy"),
+                                       ": w zakładce przedstawiono wyniki podobnych firm z uwzględnieniem
+                                       województwa oraz czasu istnienia."),
                                align = "left"
-                             )
+                             ),
+                             hr(),
+                             h4("Szczegóły modelu", align = "left"),
+                             p(tags$b("Accuracy"), " : 0.8208", align = "left")
                     ),
                     
                               
