@@ -94,6 +94,7 @@ ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                             
                     tabPanel("XAI - wyjaśnienie predykcji",
                              #actionButton("refreshXAI", "Odśwież wykresy"),
+                             # plotOutput(outputId = "explainationPlot"),
                              plotOutput(outputId = "explainationPlot"),
                              plotOutput(outputId = "shapleyPlot"),
                              plotOutput(outputId = "ceterisParibusPlot")
@@ -110,7 +111,7 @@ ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                     #          verbatimTextOutput("PKDMainGroup"),
                     #          verbatimTextOutput("PKDMainSection")),
                     
-                    tabPanel("Nazwa do zmiany",
+                    tabPanel("Podobne firmy",
                              # fluidRow(
                              #   column(
                              #          width = 12,
