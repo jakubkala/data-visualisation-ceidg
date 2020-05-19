@@ -168,15 +168,33 @@ server <- function(input, output) {
         x = ~DurationOfExistenceInMonths, y = ~MainAddressVoivodeship, 
         customdata = row.names(ceidg), 
         marker = list(color = colorss,
-                      size  = cols)
+                      size  = cols),
+        type   = 'scatter', 
+        mode   = 'markers'
                       # symbol = ~Target, symbols = c('o', 'circle'))
       ) %>%
-      add_markers() 
+      add_markers(showlegend = F) %>% 
+      add_trace(
+        x = input$DurationOfExistenceInMonths,
+        y = input$MainAddressVoivodeship,
+        marker = list(
+          color = 'rgb(17, 157, 255)',
+          size = 10,
+          line = list(
+            color = 'rgb(231, 99, 250)',
+            width = 3
+          )
+        ),
+        showlegend = F,
+        type   = 'scatter', 
+        mode   = 'markers'
+      )
+      
       # highlight(on = "plotly_click", off = "plotly_doubleclick")
       
   })
   
   output$table <- renderTable({
-    filter(ceidg, row.names(ceidg) %in% cars())
+    filter(ceidg[, c(1,2,3,4,5,6,10,11)], row.names(ceidg) %in% cars())
   })
 }

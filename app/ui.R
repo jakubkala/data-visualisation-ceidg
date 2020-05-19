@@ -70,6 +70,7 @@ ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                             
                     tabPanel("XAI",
                              #actionButton("refreshXAI", "Odśwież wykresy"),
+                             # plotOutput(outputId = "explainationPlot"),
                              plotOutput(outputId = "explainationPlot"),
                              plotOutput(outputId = "shapleyPlot"),
                              plotOutput(outputId = "ceterisParibusPlot")
