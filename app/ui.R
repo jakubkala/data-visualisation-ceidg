@@ -1,11 +1,12 @@
 ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                 
                 # Application title
-                titlePanel("title to be considered"),
+                titlePanel("Czy mój biznes przetrwa najbliższy rok?"),
+                hr(),
                 
                 sidebarLayout(
                   sidebarPanel(
-                    h1("Dane przedsiębiorstwa"),
+                    h4("Dane przedsiębiorstwa"),
                     
                     sliderInput("DurationOfExistenceInMonths",
                                 "Długość życia przedsiębiorstwa:",
@@ -21,7 +22,7 @@ ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                                 MainAddressCounty_unique),
                     
                     sliderInput("MainTERCPopulation",
-                                "Liczba ludności (wg TERC):",
+                                "Liczba ludności miasta / gminy (wg TERC):",
                                 min = min(MainTERCPopulation_unique),
                                 max = max(MainTERCPopulation_unique),
                                 value = min(MainTERCPopulation_unique),
@@ -56,11 +57,34 @@ ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                             tabsetPanel(
                               
                     tabPanel("Informacje",
-                             h1("Tutaj podstawowe informacje o modelu, który udało nam się stworzyć")
+                             h4("Opis programu"),
+                             p("Przedstawiamy Państwu aplikację, która umożliwia uzyskanie predykcji
+                             na temat \"Czy mój biznes przetrwa najbliższy rok?\".", align = "left"),
+                             p("Do wyznaczenia prawdopodobieństwa przrtrwania został wykorzystany model
+                             Random Forest. Dane użyte do treningu zostały pozyskane z Centralnej
+                             Ewidencji Działalności Gospodarczej. Zbiór danych dostępny
+                             jest pod adresem:", align = "left"),
+                             a("https://github.com/karabanb/ceidg_datasets/"),
+                             hr(),
+                             h4("Instrukcja obsługi"),
+                             p("Aby uzyskać predykcję oraz jej wyjaśnienie, należy wprowadzić dane
+                               firmy w panelu po lewej stronie, a następnie wybrać zakładkę z interesującymi
+                               nas informacjami.", align = "left"),
+                             tags$ul(
+                               tags$li(tags$b("Prawdopodobieństwo przetwania"),
+                                       ": w zakładce przedstawione jest prawdopobieństwo przetrwania naszego 
+                                       biznesu."), 
+                               tags$li(tags$b("XAI - wyjaśnienie predykcji"),
+                                       "(eXplainable AI): w zakładce przedstawione jest wyjaśnie
+                                       otrzymanej predykcji."), 
+                               tags$li(tags$b("???"),
+                                       ": w zakładce przedstawiono ???."),
+                               align = "left"
+                             )
                     ),
                     
                               
-                    tabPanel("Tutej jakas nazwa lepsza",
+                    tabPanel("Prawdopodobieństwo przetrwania",
                              verbatimTextOutput("printProbability"),
                              plotOutput(outputId = "DurationOfExistenceInMonths_Plot"),
                              plotOutput(outputId = "MainAddressVoivodeship_Plot"),
@@ -68,7 +92,7 @@ ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                              
                              ),
                             
-                    tabPanel("XAI",
+                    tabPanel("XAI - wyjaśnienie predykcji",
                              #actionButton("refreshXAI", "Odśwież wykresy"),
                              plotOutput(outputId = "explainationPlot"),
                              plotOutput(outputId = "shapleyPlot"),
