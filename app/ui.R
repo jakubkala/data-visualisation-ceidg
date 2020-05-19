@@ -87,7 +87,7 @@ ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                     #          verbatimTextOutput("PKDMainGroup"),
                     #          verbatimTextOutput("PKDMainSection")),
                     
-                    tabPanel("Nazwa do zmiany",
+                    tabPanel("Podobne firmy",
                              # fluidRow(
                              #   column(
                              #          width = 12,
