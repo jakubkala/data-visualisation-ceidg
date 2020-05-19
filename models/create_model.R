@@ -11,7 +11,7 @@ read.csv("../data/dataset_cleaned_csv") %>%
   na.omit %>%
   filter(DurationOfExistenceInMonths >= 0) -> ceidg
 
-ceidg$Target <- ifelse(ceidg$Target == "True", T, F)
+ceidg$Target <- ifelse(ceidg$Target == "True", F, T)
 
 important_cols = c("Target",
                    "DurationOfExistenceInMonths",

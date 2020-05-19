@@ -6,7 +6,7 @@ library("breakDown")
 library("ranger")
 library("ggplot2")
 library("plotly")
-library(shinythemes)
+library("shinythemes")
 
 
 # Dataset preparation
@@ -14,7 +14,8 @@ read.csv("../data/dataset_cleaned_csv") %>%
   na.omit %>%
   filter(DurationOfExistenceInMonths >= 0) -> ceidg
 
-ceidg$Target <- ifelse(ceidg$Target == "True", T, F)
+# True = company survived
+ceidg$Target <- ifelse(ceidg$Target == "True", F, T)
 
 ceidg <- ceidg[, c("Target",
                    "DurationOfExistenceInMonths",

@@ -54,9 +54,13 @@ ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                   
                   mainPanel(align = "center",
                             tabsetPanel(
+                              
+                    tabPanel("Informacje",
+                             h1("Tutaj podstawowe informacje o modelu, który udało nam się stworzyć")
+                    ),
                     
-                    tabPanel("Tab1",
-                             verbatimTextOutput("Target"),
+                              
+                    tabPanel("Tutej jakas nazwa lepsza",
                              verbatimTextOutput("printProbability"),
                              plotOutput(outputId = "DurationOfExistenceInMonths_Plot"),
                              plotOutput(outputId = "MainAddressVoivodeship_Plot"),
@@ -64,24 +68,25 @@ ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                              
                              ),
                             
-                    tabPanel("Tab2",
+                    tabPanel("XAI",
+                             #actionButton("refreshXAI", "Odśwież wykresy"),
                              plotOutput(outputId = "explainationPlot"),
                              plotOutput(outputId = "shapleyPlot"),
                              plotOutput(outputId = "ceterisParibusPlot")
                              #plotOutput(outputId = "diagnosticPlot"),
                              ),
+                    # 
+                    # tabPanel("Tab3",
+                    #          
+                    #          verbatimTextOutput("DurationOfExistenceInMonths"),
+                    #          verbatimTextOutput("MainAddressVoivodeship"),
+                    #          verbatimTextOutput("MainAddressCounty"),
+                    #          verbatimTextOutput("MainTERCPopulation"),
+                    #          verbatimTextOutput("PKDMainClass"),
+                    #          verbatimTextOutput("PKDMainGroup"),
+                    #          verbatimTextOutput("PKDMainSection")),
                     
-                    tabPanel("Tab3",
-                             
-                             verbatimTextOutput("DurationOfExistenceInMonths"),
-                             verbatimTextOutput("MainAddressVoivodeship"),
-                             verbatimTextOutput("MainAddressCounty"),
-                             verbatimTextOutput("MainTERCPopulation"),
-                             verbatimTextOutput("PKDMainClass"),
-                             verbatimTextOutput("PKDMainGroup"),
-                             verbatimTextOutput("PKDMainSection")),
-                    
-                    tabPanel("Tab4",
+                    tabPanel("Nazwa do zmiany",
                              # fluidRow(
                              #   column(
                              #          width = 12,

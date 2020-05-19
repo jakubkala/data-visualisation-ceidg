@@ -34,7 +34,9 @@ server <- function(input, output) {
   pred=reactive({predict(model,data())$predictions})
   
   output[["Target"]] <- renderPrint(pred())
-  output[["printProbability"]] <- renderPrint(paste("Probability of default:", pred()[2]))
+  output[["printProbability"]] <- renderPrint(
+    paste("Prawdopodobieństwo przetrwania kolejnych 12 miesięcy:",
+          round(pred()[2], digits = 3)))
   
   # explaination
   # explaination <- reactive({explain.default(model, data = ceidg[, -1], y = ceidg$Target)})
@@ -42,20 +44,30 @@ server <- function(input, output) {
   bd_rf <- reactive({break_down(explaination,
                                 data(),
                                 keep_distributions = TRUE)})
-  output$explainationPlot <- renderPlot(plot(bd_rf()))
+  output$explainationPlot <- renderPlot(plot(bd_rf()),
+                                        height = 400,
+                                        width = 800)
   
   
   # shapley
+  
+  #observeEvent("refreshXAI", output$xai_data <- data())
+  
   shap <- reactive({variable_attribution(explaination, 
                                data(), 
                                type = "shap",
                                B = 15)})
-  output$shapleyPlot <- renderPlot(plot(shap()))
+  output$shapleyPlot <- renderPlot(plot(shap()),
+                                   height = 400,
+                                   width = 800)
   
   # ceteris paribus DurationOfExistenceInMonths
   cp_duartion <- reactive({individual_profile(explaination,
                                     new_observation = data())})
-  output$ceterisParibusPlot <- renderPlot(plot(cp_duartion(), variables = c("DurationOfExistenceInMonths")))
+  output$ceterisParibusPlot <- renderPlot(plot(cp_duartion(),
+                                          variables = c("DurationOfExistenceInMonths")),
+                                          height = 400,
+                                          width = 800)
   
 
   # diagnostic plot DurationOfExistenceInMonths - some problems with this one
@@ -74,6 +86,8 @@ server <- function(input, output) {
            aes(x=DurationOfExistenceInMonths, y=Mean, group=1)) +
       geom_line() + 
       geom_point(aes(x=input$DurationOfExistenceInMonths, y=pred()[2]), colour="blue") +
+       xlab("Wiek przedsiębiorstwa (w miesiącach)") + 
+       ylab("Prawdopodobieństwo") + 
       theme_light())},
     height = 400,
     width = 800)
@@ -83,6 +97,8 @@ server <- function(input, output) {
             aes(x=MainAddressVoivodeship, y=Mean)) + 
        geom_point() + 
        geom_point(aes(x=input$MainAddressVoivodeship, y=pred()[2]), colour="blue") +
+       xlab("Województwo") + 
+       ylab("Prawdopodobieństwo") + 
        theme_light() + 
        theme(axis.text.x = element_text(angle = 45, hjust = 1)))},
     height = 400,
@@ -92,6 +108,8 @@ server <- function(input, output) {
   output$PKDMainSection_Plot<-renderPlot({
     (ggplot(data=PKDMainSection_TargetMean,
             aes(x=PKDMainSection, y=Mean)) + 
+       xlab("Sekcja PKD") + 
+       ylab("Prawdopodobieństwo") +        
        geom_point() + 
        geom_point(aes(x=input$PKDMainSection, y=pred()[2]), colour="blue") +
        theme_light())},
