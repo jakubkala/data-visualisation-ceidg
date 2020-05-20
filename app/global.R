@@ -11,7 +11,7 @@ library("shinythemes")
 # library("r2d3")
 
 # Dataset preparation
-read.csv("../data/dataset_cleaned_csv") %>%
+read.csv("./dataset_cleaned_csv") %>%
   na.omit %>%
   filter(DurationOfExistenceInMonths >= 0) -> ceidg
 
@@ -70,7 +70,7 @@ ceidg %>%
   summarise(Mean = mean(Target)) -> PKDMainSection_TargetMean
 
 # Model read 
-model <- readRDS("../models/randomForestModel.rds")
+model <- readRDS("./randomForestModel.rds")
 
 #x = predict(object = model, data = test)
 

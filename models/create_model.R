@@ -33,11 +33,11 @@ ceidg$PKDMainGroup <- as.factor(ceidg$PKDMainGroup)
 ceidg$PKDMainClass <- as.factor(ceidg$PKDMainClass)
 
 # Model 
-ceidg %>% sample_n(10000) -> ceidg_model
+ceidg %>% sample_n(100000) -> ceidg_model
 
 model <- ranger(Target ~ . ,
                 data = ceidg_model,
-                num.trees = 100,
+                num.trees = 50,
                 probability = T)
 # save model to RDS file
 saveRDS(model, file = "./models/randomForestModel.rds")

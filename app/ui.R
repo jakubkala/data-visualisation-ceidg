@@ -8,8 +8,8 @@ ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                   sidebarPanel(
                     h4("Dane przedsiębiorstwa"),
                     
-                    sliderInput("DurationOfExistenceInMonths",
-                                "Długość życia przedsiębiorstwa:",
+                    numericInput("DurationOfExistenceInMonths",
+                                "Długość życia przedsiębiorstwa (w miesiącach):",
                                 min = min(DurationOfExistenceInMonths_unique),
                                 max = max(DurationOfExistenceInMonths_unique),
                                 value = min(DurationOfExistenceInMonths_unique),
@@ -21,7 +21,7 @@ ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                     selectInput("MainAddressCounty", "Powiat:",
                                 MainAddressCounty_unique),
                     
-                    sliderInput("MainTERCPopulation",
+                    numericInput("MainTERCPopulation",
                                 "Liczba ludności miasta / gminy (wg TERC):",
                                 min = min(MainTERCPopulation_unique),
                                 max = max(MainTERCPopulation_unique),
@@ -44,7 +44,7 @@ ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                                  c("Tak" = "True",
                                    "Nie" = "False")),
                     
-                    sliderInput("NoOfLicences",
+                    numericInput("NoOfLicences",
                                 "Liczba licencji:",
                                 min = min(NoOfLicences_unique),
                                 max = max(NoOfLicences_unique),
@@ -64,7 +64,7 @@ ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                              Random Forest. Dane użyte do treningu zostały pozyskane z Centralnej
                              Ewidencji Działalności Gospodarczej. Zbiór danych dostępny
                              jest pod adresem:", align = "left"),
-                             a("https://github.com/karabanb/ceidg_datasets/"),
+                             a(href="https://github.com/karabanb/ceidg_datasets/", "https://github.com/karabanb/ceidg_datasets/"),
                              hr(),
                              h4("Instrukcja obsługi", align = "left"),
                              p("Aby uzyskać predykcję oraz jej wyjaśnienie, należy wprowadzić dane
@@ -84,23 +84,47 @@ ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                              ),
                              hr(),
                              h4("Szczegóły modelu", align = "left"),
-                             p(tags$b("Accuracy"), " : 0.8208", align = "left")
+                             p(tags$b("Accuracy"), " : 0.8208", align = "left"),
+                             hr(),
+                             h4("Autorzy", align = "left"),
+                             tags$ul(
+                               tags$li("Jakub Kała"),
+                               tags$li("Michał Bortkiewicz"),
+                               tags$li("Krzysztof Spaliński"),
+                               align = "left"
+                             ),
+                             p("Kod projektu znajduje się w repozytorium na Githubie:", align = "left"),
+                             a(href="https://github.com/jakubkala/data-visualisation-ceidg", "https://github.com/jakubkala/data-visualisation-ceidg"),
                     ),
                     
                               
                     tabPanel("Prawdopodobieństwo przetrwania",
+                             h4("Prawdopodobieństwo przetrwania", align = 'left'),
                              verbatimTextOutput("printProbability"),
+                             hr(),
+                             h4("Stopa przetrwania w zależności od Długości życia przedsiębiorstwa", align = 'left'),
                              plotOutput(outputId = "DurationOfExistenceInMonths_Plot"),
+                             h4("Stopa przetrwania w zależności od województwa", align = 'left'),
                              plotOutput(outputId = "MainAddressVoivodeship_Plot"),
+                             h4("Stopa przetrwania w zależności od sekcji PKD", align = 'left'),
                              plotOutput(outputId = "PKDMainSection_Plot")
-                             
                              ),
                             
                     tabPanel("XAI - wyjaśnienie predykcji",
                              #actionButton("refreshXAI", "Odśwież wykresy"),
                              # plotOutput(outputId = "explainationPlot"),
+                             h4("Wpływ wprowadzonych parametrów na wynik predykcji", align = "left"),
+                             p("Wykresy przedstawione poniżej zostały stworzone za pomocą narzędzia DALEX. Więcej informacji
+                             na jego temat można znaleźć na stronach: ", align = "left"),
+                             a(href="https://github.com/ModelOriented/DALEX", "https://github.com/ModelOriented/DALEX"),
+                             p(),
+                             a(href="https://pbiecek.github.io/ema", "https://pbiecek.github.io/ema"),
+                             hr(),
+                             h4("Udział poszczególnych zmiennych w otrzymanej predykcji", align = "left"),
                              plotOutput(outputId = "explainationPlot"),
+                             h4("Średnie udziały dla różnych kolejności zmiennych", align = "left"),
                              plotOutput(outputId = "shapleyPlot"),
+                             h4(tags$i("Ceteris paribus")," zmiana predykcji w zależności od zmiany zmiennej Długość życia przedsiębiorstwa", align = "left"),
                              plotOutput(outputId = "ceterisParibusPlot")
                              #plotOutput(outputId = "diagnosticPlot"),
                              ),
@@ -138,6 +162,11 @@ ui <- fluidPage(theme=shinythemes::shinytheme('paper'),
                              #          verbatimTextOutput("brush_info")
                              #   )
                              # ),
+                             h4("Podobne firmy", align = "left"),
+                             p("Na wykresie poniżej przedstawione są wyniki podobnych firm z uwzględnieniem podziału na
+                               województwa oraz Długość życia przedsiębiorstwa. Aby uzyskać dokładne dane dotyczące pojedynczej
+                               firmy, należy kliknąć na nią na wykresie.", align = "left"),
+                             hr(),
                              fluidRow(
                                plotlyOutput("p"),
                                tableOutput("table")

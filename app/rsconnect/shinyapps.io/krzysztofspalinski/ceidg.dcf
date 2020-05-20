@@ -1,0 +1,12 @@
+name: ceidg
+title: ceidg
+username:
+account: krzysztofspalinski
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2329069
+bundleId: 3170022
+url: https://krzysztofspalinski.shinyapps.io/ceidg/
+when: 1589972587.50963
+asMultiple: FALSE
+asStatic: FALSE
